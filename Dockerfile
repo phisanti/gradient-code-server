@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          cmake \
          git \
          curl \
+         locales \
+         openssh-client \
          sudo \
          vim \
          ca-certificates \
@@ -17,6 +19,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          libjpeg-dev \
          zip \
          unzip \
+         htop \
+         procps \
+         dumb-init \
+         lsb-release \
          libpng-dev &&\
      rm -rf /var/lib/apt/lists/*
 
