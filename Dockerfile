@@ -5,9 +5,6 @@ LABEL com.nvidia.volumes.needed="nvidia_driver"
 
 RUN echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
-ENV USER coder
-RUN /bin/sh -c adduser --gecos '' --disabled-password coder &&   echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
-
 # Install required tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
          build-essential \
@@ -34,6 +31,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
 ENV PYTHON_VERSION=3.6
 
+RUN adduser --gecos '' --disabled-password coder && \
+  echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
+  
 # Install code-server
 
 WORKDIR /home/coder
