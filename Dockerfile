@@ -31,12 +31,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
 ENV PYTHON_VERSION=3.6
 
+WORKDIR /notebooks
+
+# Install conda
+RUN curl -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
+    chmod +x ~/miniconda.sh && \
+    ~/miniconda.sh -b && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda install conda-build
+    
+ENV PATH=$PATH:/opt/conda/bin/
+
 RUN adduser --gecos '' --disabled-password coder && \
   echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
   
 # Install code-server
-
-WORKDIR /home/coder
 
 RUN ARCH="$(dpkg --print-architecture)" && \
     curl -fsSL "https://github.com/boxboat/fixuid/releases/download/v0.4.1/fixuid-0.4.1-linux-$ARCH.tar.gz" | tar -C /usr/local/bin -xzf - && \
@@ -52,18 +61,10 @@ RUN mv ~/.local/lib/code-server-3.8.0-linux-amd64 ~/.local/lib/code-server-3.8.0
 RUN ln -s ~/.local/lib/code-server-3.8.0/bin/code-server ~/.local/bin/code-server
 RUN PATH="~/.local/bin:$PATH"
 
+# Expose port and entry point
+
 COPY entrypoint.sh /usr/bin/entrypoint.sh
 
-# Install conda
-RUN curl -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
-    chmod +x ~/miniconda.sh && \
-    ~/miniconda.sh -b && \
-    rm ~/miniconda.sh && \
-    /opt/conda/bin/conda install conda-build
-    
-ENV PATH=$PATH:/opt/conda/bin/
-
-# Expose port and entry point
 USER 1000
 COPY run.sh /run.sh
 EXPOSE 8888
