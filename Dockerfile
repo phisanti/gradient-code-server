@@ -5,7 +5,6 @@ LABEL com.nvidia.volumes.needed="nvidia_driver"
 
 RUN echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
-# Install required tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
          build-essential \
          cmake \
@@ -18,13 +17,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          libjpeg-dev \
          zip \
          unzip \
-         dumb-init \
-         htop \ 
-         locales \
-         man \
-         procps \
-         openssh-client \
-         lsb-release \
          libpng-dev &&\
      rm -rf /var/lib/apt/lists/*
 
@@ -38,36 +30,15 @@ RUN curl -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-la
     /opt/conda/bin/conda install conda-build
 
 ENV PATH=$PATH:/opt/conda/bin/
+ENV USER scm
 
-# Modify users priv.
+# Create Environment
+RUN conda install jupyterlab ipywidgets
+WORKDIR /notebooks
+# Activate Source
+CMD source ~/.bashrc
 
-RUN adduser --gecos '' --disabled-password coder && \
-  echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
-  
-# Install code-server
-
-RUN ARCH="$(dpkg --print-architecture)" && \
-    curl -fsSL "https://github.com/boxboat/fixuid/releases/download/v0.4.1/fixuid-0.4.1-linux-$ARCH.tar.gz" | tar -C /usr/local/bin -xzf - && \
-    chown root:root /usr/local/bin/fixuid && \
-    chmod 4755 /usr/local/bin/fixuid && \
-    mkdir -p /etc/fixuid && \
-    printf "user: coder\ngroup: coder\n" > /etc/fixuid/config.yml
-         
-RUN mkdir -p ~/.local/lib ~/.local/bin
-RUN curl -fL https://github.com/cdr/code-server/releases/download/v3.8.0/code-server-3.8.0-linux-amd64.tar.gz \
-  | tar -C ~/.local/lib -xz
-RUN mv ~/.local/lib/code-server-3.8.0-linux-amd64 ~/.local/lib/code-server-3.8.0
-RUN ln -s ~/.local/lib/code-server-3.8.0/bin/code-server ~/.local/bin/code-server
-RUN PATH="~/.local/bin:$PATH"
-
-# Expose port and entry point
-
-COPY entrypoint.sh /usr/bin/entrypoint.sh
-
-USER 1000
+COPY config.yml /root/.scm/config.yml
 COPY run.sh /run.sh
-EXPOSE 8888
-EXPOSE 8080
 
-ENTRYPOINT ["/run.sh"]
-
+CMD ["/run.sh"]
