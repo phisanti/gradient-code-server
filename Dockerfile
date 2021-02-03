@@ -55,14 +55,13 @@ RUN PATH="~/.local/bin:$PATH"
 COPY entrypoint.sh /usr/bin/entrypoint.sh
 
 # Install conda
-RUN cd ./home/coder
 RUN curl -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
     chmod +x ~/miniconda.sh && \
     ~/miniconda.sh -b && \
     rm ~/miniconda.sh && \
-    /home/coder/miniconda3/bin/conda install conda-build
-
-ENV PATH=$PATH:/home/coder/miniconda3/bin/
+    /opt/conda/bin/conda install conda-build
+    
+ENV PATH=$PATH:/opt/conda/bin/
 
 # Expose port and entry point
 USER 1000
