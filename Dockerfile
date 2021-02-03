@@ -41,10 +41,9 @@ ENV USER scm
 # Create Environment
 RUN conda install jupyterlab ipywidgets
 WORKDIR /notebooks
+
 # Activate Source
 CMD source ~/.bashrc
-
-COPY config.yml /root/.scm/config.yml
 COPY run.sh /run.sh
 
 CMD ["/run.sh"]
