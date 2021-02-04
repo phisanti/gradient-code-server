@@ -67,8 +67,7 @@ EXPOSE 8888
 EXPOSE 8080
 
 COPY entrypoint.sh /usr/bin/entrypoint.sh
-RUN ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
 
 USER 1000
 COPY run.sh /run.sh
-ENTRYPOINT ["/run.sh"]
+ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", ".", "/run.sh"]
