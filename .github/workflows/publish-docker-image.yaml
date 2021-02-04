@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - Dockerfile
-      - .github/workflows/ghcr.yaml
+      - .github/workflows/publish-docker-image.yaml
     branches:
       - main
     tags:
