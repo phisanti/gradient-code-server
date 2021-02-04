@@ -62,11 +62,12 @@ RUN dpkg -i ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb && rm ./code-server
 COPY ./entrypoint.sh /usr/bin/entrypoint.sh
 
 # Switch to default user
+EXPOSE 8080
+
 USER coder
 USER 1000
 ENV USER=coder
 ENV HOME=/home/coder
 WORKDIR /projects
 
-EXPOSE 8080
-ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "--disable-telemetry", "."]
+ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
