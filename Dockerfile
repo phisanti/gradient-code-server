@@ -60,7 +60,7 @@ RUN curl -fL https://github.com/cdr/code-server/releases/download/v3.8.0/code-se
 RUN mv ~/.local/lib/code-server-3.8.0-linux-amd64 ~/.local/lib/code-server-3.8.0
 RUN ln -s ~/.local/lib/code-server-3.8.0/bin/code-server ~/.local/bin/code-server
 RUN PATH="~/.local/bin:$PATH"
-
+RUN echo whereis code-server
 # Expose port and entry point
 
 WORKDIR /home/coder
