@@ -63,10 +63,11 @@ RUN PATH="~/.local/bin:$PATH"
 
 # Expose port and entry point
 
-COPY entrypoint.sh /usr/bin/entrypoint.sh
-
 EXPOSE 8888
 EXPOSE 8080
+
+COPY entrypoint.sh /usr/bin/entrypoint.sh
+RUN ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
 
 USER 1000
 COPY run.sh /run.sh
