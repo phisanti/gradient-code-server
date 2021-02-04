@@ -63,6 +63,7 @@ COPY ./entrypoint.sh /usr/bin/entrypoint.sh
 
 # Switch to default user
 USER coder
+USER 1000
 ENV USER=coder
 ENV HOME=/home/coder
 WORKDIR /projects
