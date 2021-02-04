@@ -12,4 +12,4 @@ fi
 echo "http://localhost:8888/?token=${JUPYTER_TOKEN}"
 echo "http://localhost:8888/\?token\=${JUPYTER_TOKEN}"
 
-PASSWORD=${JUPYTER_TOKEN} ~/.local/bin/code-server --bind-addr "0.0.0.0:8888" .
+PASSWORD=${JUPYTER_TOKEN} /usr/bin/code-server --bind-addr "0.0.0.0:8888" .
