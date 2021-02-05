@@ -42,7 +42,6 @@ RUN ARCH="$(dpkg --print-architecture)" && \
  
 # Install code-server
 WORKDIR /tmp
-ENV 
 RUN CODE_SERVER_VERSION=3.8.0 && \
     ARCH="$(dpkg --print-architecture)" && \
     curl -fOL https://github.com/cdr/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_${ARCH}.deb
