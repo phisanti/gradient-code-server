@@ -1,4 +1,5 @@
 FROM nvidia/cuda:11.0-base-ubuntu20.04
+RUN echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
