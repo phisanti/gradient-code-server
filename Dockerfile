@@ -47,7 +47,7 @@ RUN CODE_SERVER_VERSION=3.9.0 && \
     ARCH="$(dpkg --print-architecture)" && \
     curl -fOL https://github.com/cdr/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_${ARCH}.deb
 
-RUN CODE_SERVER_VERSION=3.8.0 && \
+RUN CODE_SERVER_VERSION=3.9.0 && \
     ARCH="$(dpkg --print-architecture)" && \
     dpkg -i ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb && rm ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb
     
