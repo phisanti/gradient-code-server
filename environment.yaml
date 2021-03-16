@@ -1,0 +1,17 @@
+name: scm
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - matplotlib
+  - jupyter
+  - jupyterlab
+  - pandas
+  - requests
+  - python>=3.6
+  - pip
+  - pip:
+      - utils
+      - graphviz
+      - ipywidgets>=7.5.1
+ 
