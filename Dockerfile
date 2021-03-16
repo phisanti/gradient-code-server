@@ -13,7 +13,6 @@ RUN apt-get update && apt-get install -y \
     libx11-6 \
     locales \
     man \
-    nano \
     git \
     procps \
     openssh-client \
@@ -71,5 +70,13 @@ RUN curl -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-la
     /home/coder/miniconda3/bin/conda install conda-build
 
 ENV PATH=$PATH:/home/coder/miniconda3/bin/
+
+# Create environment
+COPY environment.yaml /environment.yaml
+RUN conda env create -f environment.yaml
+
+# Activate Source
+CMD source activate scm
+CMD source ~/.bashrc
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
