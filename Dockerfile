@@ -50,7 +50,18 @@ RUN CODE_SERVER_VERSION=3.9.1 && \
 RUN CODE_SERVER_VERSION=3.9.1 && \
     ARCH="$(dpkg --print-architecture)" && \
     dpkg -i ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb && rm ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb
-    
+
+# Install conda
+RUN curl -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
+    chmod +x ~/miniconda.sh && \
+    ~/miniconda.sh -b && \
+    rm ~/miniconda.sh && \
+    /home/coder/miniconda3/bin/conda install conda-build
+
+ENV PATH=$PATH:/home/coder/miniconda3/bin/
+
+# Copy entry point
+
 COPY ./entrypoint.sh /usr/bin/entrypoint.sh
 
 EXPOSE 8080
