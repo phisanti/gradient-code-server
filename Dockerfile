@@ -72,7 +72,7 @@ RUN curl -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-la
 ENV PATH=$PATH:/home/coder/miniconda3/bin/
 
 # Create environment
-COPY environment.yaml /environment.yaml
+COPY environment.yaml /home/coder/environment.yaml
 RUN conda env create -f environment.yaml
 
 # Activate Source
