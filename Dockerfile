@@ -73,7 +73,7 @@ ENV PATH=$PATH:/home/coder/miniconda3/bin/
 
 # Create environment
 COPY environment.yaml /home/coder/environment.yaml
-RUN conda env create -f environment.yaml
+RUN conda env update -n base --file environment.yaml
 
 # Activate Source
 CMD source activate scm
