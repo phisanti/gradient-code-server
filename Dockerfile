@@ -43,7 +43,6 @@ WORKDIR /tmp
 RUN CODE_SERVER_VERSION=3.9.1 && \
     ARCH="$(dpkg --print-architecture)" && \
     curl -fOL https://github.com/cdr/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_${ARCH}.deb \
-    ARCH="$(dpkg --print-architecture)" && \
     dpkg -i ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb && rm ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb
 
 # Copy entry point
