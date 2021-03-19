@@ -33,9 +33,7 @@ ARG CUDA
 SHELL ["/bin/bash", "-c"]
 # Pick up some TF dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-            build-essential
-
-RUN apt-get update && apt-get install -y \
+            build-essential \
             cuda-command-line-tools-${CUDA/./-} \
             libcublas-${CUDA/./-} \
             cuda-nvrtc-${CUDA/./-} \
