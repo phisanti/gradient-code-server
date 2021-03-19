@@ -1,9 +1,62 @@
-FROM nvidia/cuda:11.0-base-ubuntu20.04
-RUN echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu2004/x86_64/ /" > /etc/apt/sources.list.d/nvidia-ml.list
-
+# Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+#
+# THIS IS A GENERATED DOCKERFILE.
+#
+# This file was assembled from multiple pieces, whose use is documented
+# throughout. Please refer to the TensorFlow dockerfiles documentation
+# for more information.
+ 
+ARG UBUNTU_VERSION=18.04
+ 
+ARG ARCH=
+ARG CUDA=11.0
+FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}-base-ubuntu${UBUNTU_VERSION} as base
+# ARCH and CUDA are specified again because the FROM directive resets ARGs
+# (but their default value is retained if set previously)
+ARG ARCH
+ARG CUDA
+ARG CUDNN=8.0.4.30-1
+ARG CUDNN_MAJOR_VERSION=8
+ARG LIB_DIR_PREFIX=x86_64
+ARG LIBNVINFER=7.1.3-1
+ARG LIBNVINFER_MAJOR_VERSION=7
+    
+# Needed for string substitution
+SHELL ["/bin/bash", "-c"]
+# Pick up some TF dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+            build-essential \
+            cuda-command-line-tools-${CUDA/./-} \
+            libcublas-${CUDA/./-} \
+            cuda-nvrtc-${CUDA/./-} \
+            libcufft-${CUDA/./-} \
+            libcurand-${CUDA/./-} \
+            libcusolver-${CUDA/./-} \
+            libcusparse-${CUDA/./-} \
+            curl \
+            libcudnn8=${CUDNN}+cuda${CUDA} \
+            libfreetype6-dev \
+            libhdf5-serial-dev \
+            libzmq3-dev \
+            pkg-config \
+            software-properties-common \
+            unzip
+    
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    curl \
     ca-certificates \
     dumb-init \
     htop \
@@ -16,14 +69,13 @@ RUN apt-get update && apt-get install -y \
     git \
     procps \
     openssh-client \
-    vim.tiny \
     lsb-release \
   && rm -rf /var/lib/apt/lists/*
 
 # https://wiki.debian.org/Locale#Manually
 RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
   && locale-gen
-ENV LANG=en_US.UTF-8
+ENV LANG C.UTF-8
 
 # Create project directory
 RUN mkdir /projects
