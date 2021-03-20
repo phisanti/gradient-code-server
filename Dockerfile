@@ -1,13 +1,13 @@
-FROM nvidia/cuda:11.2.1-base-ubuntu20.04
+FROM nvidia/cuda:11.1-base-ubuntu20.04
 #RUN echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu2004/x86_64/ /" > /etc/apt/sources.list.d/nvidia-ml.list
-    
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
+    curl \
     ca-certificates \
     dumb-init \
     htop \
     sudo \
-    curl \
     git \
     bzip2 \
     libx11-6 \
@@ -16,13 +16,14 @@ RUN apt-get update && apt-get install -y \
     git \
     procps \
     openssh-client \
+    vim.tiny \
     lsb-release \
   && rm -rf /var/lib/apt/lists/*
 
 # https://wiki.debian.org/Locale#Manually
 RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
   && locale-gen
-ENV LANG C.UTF-8
+ENV LANG=en_US.UTF-8
 
 # Create project directory
 RUN mkdir /projects
@@ -48,7 +49,7 @@ RUN CODE_SERVER_VERSION=3.9.1 && \
 RUN CODE_SERVER_VERSION=3.9.1 && \
     ARCH="$(dpkg --print-architecture)" && \
     dpkg -i ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb && rm ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb
-  
+
 # Copy entry point
 
 COPY ./entrypoint.sh /usr/bin/entrypoint.sh
