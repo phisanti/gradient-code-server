@@ -1,5 +1,4 @@
-FROM nvidia/cuda:11.1-base-ubuntu20.04
-#RUN echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu2004/x86_64/ /" > /etc/apt/sources.list.d/nvidia-ml.list
+FROM nvidia/cuda:11.2.2-base-ubuntu20.04
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -8,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     dumb-init \
     htop \
     sudo \
-    git \
+    gcc \
     bzip2 \
     libx11-6 \
     locales \
@@ -16,7 +15,6 @@ RUN apt-get update && apt-get install -y \
     git \
     procps \
     openssh-client \
-    vim.tiny \
     lsb-release \
   && rm -rf /var/lib/apt/lists/*
 
@@ -49,9 +47,7 @@ RUN CODE_SERVER_VERSION=3.9.1 && \
 RUN CODE_SERVER_VERSION=3.9.1 && \
     ARCH="$(dpkg --print-architecture)" && \
     dpkg -i ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb && rm ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb
-
-# Copy entry point
-
+    
 COPY ./entrypoint.sh /usr/bin/entrypoint.sh
 
 EXPOSE 8080
@@ -61,22 +57,4 @@ EXPOSE 8080
 USER 1000
 ENV USER=coder
 WORKDIR /home/coder
-
-# Install conda
-RUN curl -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
-    chmod +x ~/miniconda.sh && \
-    ~/miniconda.sh -b && \
-    rm ~/miniconda.sh && \
-    /home/coder/miniconda3/bin/conda install conda-build
-
-ENV PATH=$PATH:/home/coder/miniconda3/bin/
-
-# Create environment
-COPY environment.yaml /home/coder/environment.yaml
-RUN conda env update -n base --file environment.yaml
-
-# Activate Source
-CMD source activate scm
-CMD source ~/.bashrc
-
 ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
