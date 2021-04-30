@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.2.2-base-ubuntu20.04
+FROM ubuntu:20.04
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
