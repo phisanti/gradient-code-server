@@ -1,4 +1,4 @@
-ARG UBUNTU_VERSION=18.04
+ARG UBUNTU_VERSION=20.04
 
 ARG ARCH=
 ARG CUDA=11.2
@@ -53,7 +53,6 @@ RUN ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/lib
     
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    curl \
     ca-certificates \
     dumb-init \
     htop \
