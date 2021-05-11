@@ -17,8 +17,6 @@ if [ "${DOCKER_USER-}" ] && [ "$DOCKER_USER" != "$USER" ]; then
   sudo sed -i "/coder/d" /etc/sudoers.d/nopasswd
 fi
 
-dumb-init /usr/bin/code-server "$@"
-
 # Source: https://gist.github.com/earthgecko/3089509
 # Generates a random alphanumeric string of length 48 (like a jupyter notebook token i.e. c8de56fa4deed24899803e93c227592aef6538f93025fe01)
 if [ -z "$JUPYTER_TOKEN" ]; then
