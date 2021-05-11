@@ -115,4 +115,4 @@ EXPOSE 8889
 EXPOSE 8890
 EXPOSE 8080
 
-ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
