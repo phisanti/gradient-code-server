@@ -92,13 +92,14 @@ RUN CODE_SERVER_VERSION=3.9.3 && \
     
 COPY ./entrypoint.sh /usr/bin/entrypoint.sh
 
+EXPOSE 8080
 # This way, if someone sets $DOCKER_USER, docker-exec will still work as
 # the uid will remain the same. note: only relevant if -u isn't passed to
 # docker-run.
-
 USER 1000
 ENV USER=coder
 WORKDIR /home/coder
+<<<<<<< HEAD
 
 # Install conda
 RUN curl -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
@@ -116,3 +117,6 @@ EXPOSE 8890
 EXPOSE 8080
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+=======
+ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
+>>>>>>> parent of 273f3a1... Combine notebook launcher and cs container
