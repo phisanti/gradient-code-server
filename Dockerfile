@@ -82,11 +82,11 @@ RUN ARCH="$(dpkg --print-architecture)" && \
  
 # Install code-server
 WORKDIR /tmp
-RUN CODE_SERVER_VERSION=3.10.2 && \
+RUN CODE_SERVER_VERSION=3.12.0 && \
     ARCH="$(dpkg --print-architecture)" && \
     curl -fOL https://github.com/cdr/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_${ARCH}.deb
 
-RUN CODE_SERVER_VERSION=3.10.2 && \
+RUN CODE_SERVER_VERSION=3.12.0 && \
     ARCH="$(dpkg --print-architecture)" && \
     dpkg -i ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb && rm ./code-server_${CODE_SERVER_VERSION}_${ARCH}.deb
     
